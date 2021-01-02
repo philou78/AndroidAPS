@@ -117,7 +117,7 @@ class NotificationStore @Inject constructor(
         if (n.level == Notification.URGENT) {
             notificationBuilder.setVibrate(longArrayOf(1000, 1000, 1000, 1000))
                 .setContentTitle(resourceHelper.gs(R.string.urgent_alarm))
-                .setSound(sound, AudioManager.STREAM_ALARM)
+//PBA???                .setSound(sound, AudioManager.STREAM_ALARM)
         } else {
             notificationBuilder.setVibrate(longArrayOf(0, 100, 50, 100, 50))
                 .setContentTitle(resourceHelper.gs(R.string.info))

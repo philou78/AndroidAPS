@@ -45,7 +45,8 @@ class TddCalculator @Inject constructor(
 
     fun calculate(days: Long): LongSparseArray<TDD> {
         val range = T.days(days + 1).msecs()
-        val startTime = MidnightTime.calc(DateUtil.now() - T.days(days).msecs())
+//PBA        val startTime = MidnightTime.calc(DateUtil.now() - T.days(days).msecs())
+        val startTime = getStartTime(days) //PBA
         val endTime = MidnightTime.calc(DateUtil.now())
         initializeData(range)
 
@@ -101,13 +102,23 @@ class TddCalculator @Inject constructor(
     }
 
     fun stats(): Spanned {
-        val tdds = calculate(7)
-        val averageTdd = averageTDD(tdds)
+//PBA        val tdds = calculate(7)
+//PBA        val averageTdd = averageTDD(tdds)
+        val tdds7 = calculate(7) //PBA
+        val averageTdd7 = averageTDD(tdds7) //PBA
+        val tdds30 = calculate(30) //PBA
+        val averageTdd30 = averageTDD(tdds30) //PBA
+        val tdds90 = calculate(90) //PBA
+        val averageTdd90 = averageTDD(tdds90) //PBA
         return HtmlHelper.fromHtml(
             "<b>" + resourceHelper.gs(R.string.tdd) + ":</b><br>" +
-                toText(tdds, true) +
+//PBA                toText(tdds, true) +
+                toText(tdds7, true) + //PBA
                 "<b>" + resourceHelper.gs(R.string.average) + ":</b><br>" +
-                averageTdd.toText(resourceHelper, tdds.size(), true)
+//PBA                averageTdd.toText(resourceHelper, tdds.size(), true)
+                averageTdd7.toText(resourceHelper, tdds7.size(), true) + //PBA
+            "<br>" + averageTdd30.toText(resourceHelper, tdds30.size(), true) + //PBA
+            "<br>" + averageTdd90.toText(resourceHelper, tdds90.size(), true) //PBA
         )
     }
 
@@ -118,4 +129,13 @@ class TddCalculator @Inject constructor(
         }
         return t
     }
+    //PBA Start
+    fun getStartTime(days: Long): Long {
+        val startTime = MidnightTime.calc(DateUtil.now() - T.days(days).msecs())
+        val endTime = MidnightTime.calc(DateUtil.now())
+
+        val bgReadings = MainApp.getDbHelper().getBgreadingsDataFromTimeWithLimit(startTime, endTime, 1L, true)
+        return Math.max(startTime, MidnightTime.calc(bgReadings.get(0).date))
+    }
+    //PBA End
 }

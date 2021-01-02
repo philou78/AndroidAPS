@@ -92,7 +92,7 @@ public class ToastUtils {
                                            final String string, int soundID) {
 
         showToastInUiThread(ctx, string);
-        playSound(ctx, soundID);
+//PBA???        playSound(ctx, soundID);
         Notification notification = new Notification(Notification.TOAST_ALARM, string, Notification.URGENT);
         rxBus.send(new EventNewNotification(notification));
     }

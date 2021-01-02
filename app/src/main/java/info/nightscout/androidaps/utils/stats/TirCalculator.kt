@@ -71,19 +71,27 @@ class TirCalculator @Inject constructor(
         val averageTir7 = averageTIR(tir7)
         val tir30 = calculate(30, lowTirMgdl, highTirMgdl)
         val averageTir30 = averageTIR(tir30)
+        val tir90 = calculate(90, lowTirMgdl, highTirMgdl) //PBA
+        val averageTir90 = averageTIR(tir90) //PBA
         val tit7 = calculate(7, lowTitMgdl, highTitMgdl)
         val averageTit7 = averageTIR(tit7)
         val tit30 = calculate(30, lowTitMgdl, highTitMgdl)
         val averageTit30 = averageTIR(tit30)
+        val tit90 = calculate(90, lowTitMgdl, highTitMgdl) //PBA
+        val averageTit90 = averageTIR(tit90) //PBA
         return HtmlHelper.fromHtml(
             "<br><b>" + resourceHelper.gs(R.string.tir) + " (" + Profile.toCurrentUnitsString(profileFunction, lowTirMgdl) + "-" + Profile.toCurrentUnitsString(profileFunction, highTirMgdl) + "):</b><br>" +
                 toText(resourceHelper, tir7) +
                 "<br><b>" + resourceHelper.gs(R.string.average) + " (" + Profile.toCurrentUnitsString(profileFunction, lowTirMgdl) + "-" + Profile.toCurrentUnitsString(profileFunction, highTirMgdl) + "):</b><br>" +
                 averageTir7.toText(resourceHelper, tir7.size()) + "<br>" +
-                averageTir30.toText(resourceHelper, tir30.size()) +
+//PBA                averageTir30.toText(resourceHelper, tir30.size()) +
+                averageTir30.toText(resourceHelper, tir30.size()) + "<br>" + //PBA
+                averageTir90.toText(resourceHelper, tir90.size()) + //PBA
                 "<br><b>" + resourceHelper.gs(R.string.average) + " (" + Profile.toCurrentUnitsString(profileFunction, lowTitMgdl) + "-" + Profile.toCurrentUnitsString(profileFunction, highTitMgdl) + "):</b><br>" +
                 averageTit7.toText(resourceHelper, tit7.size()) + "<br>" +
-                averageTit30.toText(resourceHelper, tit30.size())
+//PBA                averageTit30.toText(resourceHelper, tit30.size())
+                averageTit30.toText(resourceHelper, tit30.size()) + "<br>" + //PBA
+            averageTit90.toText(resourceHelper, tit90.size()) //PBA
         )
     }
 

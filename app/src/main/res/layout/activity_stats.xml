@@ -52,21 +52,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Small" /><!--PBA-->
+<!--PBA        android:textAppearance="@style/TextAppearance.AppCompat.Medium" /-->
 
         <TextView
             android:id="@+id/stats_tir"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Small" /><!--PBA-->
+        <!--PBA        android:textAppearance="@style/TextAppearance.AppCompat.Medium" /-->
 
         <TextView
             android:id="@+id/stats_activity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Small" /><!--PBA-->
+        <!--PBA        android:textAppearance="@style/TextAppearance.AppCompat.Medium" /-->
 
         <LinearLayout
             android:id="@+id/done_background"
