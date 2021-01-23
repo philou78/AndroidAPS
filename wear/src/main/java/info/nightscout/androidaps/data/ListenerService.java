@@ -553,6 +553,9 @@ public class ListenerService extends WearableListenerService implements GoogleAp
     }
 
     private void notifyChangeRequest(String title, String message, String actionstring) {
+        boolean vibrate = PreferenceManager
+                .getDefaultSharedPreferences(this).getBoolean("vibrateOnBolus", true);
+
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -560,7 +563,10 @@ public class ListenerService extends WearableListenerService implements GoogleAp
             String description = "Open Loop request notiffication";//getString(R.string.channel_description);
             NotificationChannel channel = new NotificationChannel(AAPS_NOTIFY_CHANNEL_ID_OPENLOOP, name, NotificationManager.IMPORTANCE_HIGH);
             channel.setDescription(description);
-            channel.enableVibration(true);
+            channel.enableVibration(vibrate);
+            if (vibrate) {
+                channel.setVibrationPattern(new long[]{1000, 1000, 1000, 1000, 1000});
+            }
 
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
@@ -574,8 +580,12 @@ public class ListenerService extends WearableListenerService implements GoogleAp
         builder = builder.setSmallIcon(R.drawable.notif_icon)
                 .setContentTitle(title)
                 .setContentText(message)
-                .setPriority(Notification.PRIORITY_HIGH)
-                .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
+                .setPriority(Notification.PRIORITY_HIGH);
+        if (vibrate) {
+            builder.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
+        } else {
+            builder.setNotificationSilent();
+        }
 
         // Creates an explicit intent for an Activity in your app
         Intent intent = new Intent(this, AcceptActivity.class);
@@ -608,19 +618,16 @@ public class ListenerService extends WearableListenerService implements GoogleAp
         long[] vibratePattern;
         boolean vibrate = PreferenceManager
                 .getDefaultSharedPreferences(this).getBoolean("vibrateOnBolus", true);
-        if (vibrate) {
-            vibratePattern = new long[]{0, 50, 1000};
-        } else {
-            vibratePattern = new long[]{0, 1, 1000};
-        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "AAPS Bolus Progress";
             String description = "Bolus progress and cancel";
             NotificationChannel channel = new NotificationChannel(AAPS_NOTIFY_CHANNEL_ID_BOLUSPROGRESS, name, NotificationManager.IMPORTANCE_HIGH);
             channel.setDescription(description);
-            channel.enableVibration(true);
-            channel.setVibrationPattern(vibratePattern);
+            channel.enableVibration(vibrate);
+            if (vibrate) {
+                channel.setVibrationPattern(new long[]{0, 50, 1000});
+            }
 
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
@@ -640,8 +647,12 @@ public class ListenerService extends WearableListenerService implements GoogleAp
                         .setSubText("press to cancel")
                         .setContentIntent(cancelPendingIntent)
                         .setPriority(NotificationCompat.PRIORITY_MAX)
-                        .setVibrate(vibratePattern)
+                        .setNotificationSilent()
                         .addAction(R.drawable.ic_cancel, "CANCEL BOLUS", cancelPendingIntent);
+
+        if (vibrate) {
+            notificationBuilder.setVibrate(new long[]{0, 50, 1000});
+        }
 
         NotificationManagerCompat notificationManager =
                 NotificationManagerCompat.from(this);
